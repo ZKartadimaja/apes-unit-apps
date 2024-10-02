@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var buttonConvert1: Button
     private lateinit var buttonConvert2: Button
     private lateinit var spinnerCategory: Spinner
+    private val converter = Converter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,24 +62,24 @@ class MainActivity : AppCompatActivity() {
                 buttonConvert2.text = "Convert to Meters"
                 linearButtons.visibility = View.VISIBLE
 
-                buttonConvert1.setOnClickListener { convertToFeet() }
-                buttonConvert2.setOnClickListener { convertToMeters() }
+                buttonConvert1.setOnClickListener { convert("meters", "feet") }
+                buttonConvert2.setOnClickListener { convert("feet", "meters") }
             }
             2 -> { // Weight
                 buttonConvert1.text = "Convert to Pounds"
                 buttonConvert2.text = "Convert to Kilograms"
                 linearButtons.visibility = View.VISIBLE
 
-                buttonConvert1.setOnClickListener { convertKgToLb() }
-                buttonConvert2.setOnClickListener { convertLbToKg() }
+                buttonConvert1.setOnClickListener { convert("kilograms", "pounds") }
+                buttonConvert2.setOnClickListener { convert("pounds", "kilograms") }
             }
             3 -> { // Volume
                 buttonConvert1.text = "Convert to Gallons"
                 buttonConvert2.text = "Convert to Liters"
                 linearButtons.visibility = View.VISIBLE
 
-                buttonConvert1.setOnClickListener { convertLitersToGallons() }
-                buttonConvert2.setOnClickListener { convertGallonsToLiters() }
+                buttonConvert1.setOnClickListener { convert("liters", "gallons") }
+                buttonConvert2.setOnClickListener { convert("gallons", "liters") }
             }
             else -> {
                 linearButtons.visibility = View.GONE
@@ -86,61 +87,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun convertToFeet() {
-        val meters = editTextAmount.text.toString().toDoubleOrNull()
-        if (meters != null) {
-            val feet = meters * 3.28084
-            textViewResult.text = "$meters meters = $feet feet"
-        } else {
-            textViewResult.text = "Please enter a valid number"
-        }
-    }
-
-    private fun convertToMeters() {
-        val feet = editTextAmount.text.toString().toDoubleOrNull()
-        if (feet != null) {
-            val meters = feet / 3.28084
-            textViewResult.text = "$feet feet = $meters meters"
-        } else {
-            textViewResult.text = "Please enter a valid number"
-        }
-    }
-
-    private fun convertKgToLb() {
-        val kg = editTextAmount.text.toString().toDoubleOrNull()
-        if (kg != null) {
-            val pounds = kg * 2.20462
-            textViewResult.text = "$kg kilograms = $pounds pounds"
-        } else {
-            textViewResult.text = "Please enter a valid number"
-        }
-    }
-
-    private fun convertLbToKg() {
-        val lb = editTextAmount.text.toString().toDoubleOrNull()
-        if (lb != null) {
-            val kg = lb / 2.20462
-            textViewResult.text = "$lb pounds = $kg kilograms"
-        } else {
-            textViewResult.text = "Please enter a valid number"
-        }
-    }
-
-    private fun convertLitersToGallons() {
-        val liters = editTextAmount.text.toString().toDoubleOrNull()
-        if (liters != null) {
-            val gallons = liters * 0.264172
-            textViewResult.text = "$liters liters = $gallons gallons"
-        } else {
-            textViewResult.text = "Please enter a valid number"
-        }
-    }
-
-    private fun convertGallonsToLiters() {
-        val gallons = editTextAmount.text.toString().toDoubleOrNull()
-        if (gallons != null) {
-            val liters = gallons / 0.264172
-            textViewResult.text = "$gallons gallons = $liters liters"
+    private fun convert(fromUnit: String, toUnit: String) {
+        val amount = editTextAmount.text.toString().toDoubleOrNull()
+        if (amount != null) {
+            val result = converter.convert(amount, fromUnit, toUnit)
+            textViewResult.text = "$amount $fromUnit = $result $toUnit"
         } else {
             textViewResult.text = "Please enter a valid number"
         }
