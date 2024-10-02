@@ -31,6 +31,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Hilangkan Action Bar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar()?.hide();
+        }
+
         editTextAmount = findViewById(R.id.editTextAmount)
         textViewResult = findViewById(R.id.textViewResult)
         linearButtons = findViewById(R.id.linearButtons)
@@ -58,24 +63,24 @@ class MainActivity : AppCompatActivity() {
     private fun updateConversionButtons(position: Int) {
         when (position) {
             1 -> { // Length
-                buttonConvert1.text = "Convert to Feet"
-                buttonConvert2.text = "Convert to Meters"
+                buttonConvert1.text = "Feet"
+                buttonConvert2.text = "Meters"
                 linearButtons.visibility = View.VISIBLE
 
                 buttonConvert1.setOnClickListener { convert("meters", "feet") }
                 buttonConvert2.setOnClickListener { convert("feet", "meters") }
             }
             2 -> { // Weight
-                buttonConvert1.text = "Convert to Pounds"
-                buttonConvert2.text = "Convert to Kilograms"
+                buttonConvert1.text = "Pounds"
+                buttonConvert2.text = "Kilograms"
                 linearButtons.visibility = View.VISIBLE
 
                 buttonConvert1.setOnClickListener { convert("kilograms", "pounds") }
                 buttonConvert2.setOnClickListener { convert("pounds", "kilograms") }
             }
             3 -> { // Volume
-                buttonConvert1.text = "Convert to Gallons"
-                buttonConvert2.text = "Convert to Liters"
+                buttonConvert1.text = "Gallons"
+                buttonConvert2.text = "Liters"
                 linearButtons.visibility = View.VISIBLE
 
                 buttonConvert1.setOnClickListener { convert("liters", "gallons") }
@@ -91,8 +96,10 @@ class MainActivity : AppCompatActivity() {
         val amount = editTextAmount.text.toString().toDoubleOrNull()
         if (amount != null) {
             val result = converter.convert(amount, fromUnit, toUnit)
+            val formattedresult = String.format("%.4f", result)
+
             textViewResult.text = "$amount $fromUnit " +
-                     "\n equals" + "\n $result $toUnit"
+                     "\n equals" + "\n $formattedresult $toUnit"
         } else {
             textViewResult.text = "Please enter a valid number"
         }
