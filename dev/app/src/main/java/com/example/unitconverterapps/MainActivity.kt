@@ -91,7 +91,8 @@ class MainActivity : AppCompatActivity() {
         val amount = editTextAmount.text.toString().toDoubleOrNull()
         if (amount != null) {
             val result = converter.convert(amount, fromUnit, toUnit)
-            textViewResult.text = "$amount $fromUnit = $result $toUnit"
+            textViewResult.text = "$amount $fromUnit " +
+                     "\n equals" + "\n $result $toUnit"
         } else {
             textViewResult.text = "Please enter a valid number"
         }
